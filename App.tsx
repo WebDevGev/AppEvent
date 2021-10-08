@@ -1,21 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './screens/LoginScreen';
+import RegistrationScreen from './screens/RegistrationScreen';
+import EventScreen from './screens/EventsScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import { AuthContext } from './context';
+
+const AuthStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthContext.Provider value={AuthContext}>
+      <NavigationContainer>
+        <AuthStack.Navigator>
+          <AuthStack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          ></AuthStack.Screen>
+          <AuthStack.Screen
+            name="RegistrationScreen"
+            component={RegistrationScreen}
+            options={{ headerShown: false }}
+          ></AuthStack.Screen>
+        </AuthStack.Navigator>
+        <MainStack.Navigator>
+          <MainStack.Screen
+            name="EventsScreen"
+            component={EventScreen}
+          ></MainStack.Screen>
+          <MainStack.Screen
+            name="ProfileScreen"
+            component={ProfileScreen}
+          ></MainStack.Screen>
+        </MainStack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
